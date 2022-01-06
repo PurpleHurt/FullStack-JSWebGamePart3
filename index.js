@@ -1,23 +1,34 @@
-function newImage(url, left, bottom){
-    let image = document.createElement('img')
-    image.src = url
-    image.style.position = 'fixed'
-    image.style.left = left + 'px'
-    image.style.bottom = bottom + 'px'
-    document.body.append(image)
-    return image
+function newElement(url) {
+    let element = document.createElement('img')
+    element.src = url
+    document.body.append(element)
+    return element
 }
 
-newImage('assets/green-character.gif', 100, 250)
-newImage('assets/tree.png', 200, 450)
-newImage('assets/pillar.png', 350, 250)
-newImage('assets/pine-tree.png', 450, 350)
-newImage('assets/crate.png', 150, 350)
-newImage('assets/well.png', 500, 575)
+function move(element) {
+    element.style.position = 'fixed'
+
+    function moveToCoordinates(left, bottom) {
+        element.style.left = left + 'px'
+        element.style.bottom = bottom + 'px'
+    }
+
+    return {
+        to: moveToCoordinates
+    }
+}
+
+move(newElement('assets/green-character.gif')).to(100, 250)
+move(newElement('assets/green-character.gif')).to(100, 250)
+move(newElement('assets/tree.png')).to(200, 450)
+move(newElement('assets/pillar.png')).to(350, 250)
+move(newElement('assets/pine-tree.png')).to(450, 350)
+move(newElement('assets/crate.png')).to(150, 350)
+move(newElement('assets/well.png')).to(500, 575)
 
 
-function newItem(url, left, bottom){
-    let item = newImage(url, left, bottom)
+function newItem(url) {
+    let item = newElement(url)
     item.addEventListener('click', () => {
         item.remove()
         let inventoryItem = document.createElement('img')
@@ -27,11 +38,11 @@ function newItem(url, left, bottom){
     return item
 }
 
-newItem('assets/sword.png', 500, 555)
-newItem('assets/shield.png', 165, 335)
-newItem('assets/staff.png', 600, 250)
+move(newItem('assets/sword.png')).to(500, 555)
+move(newItem('assets/shield.png')).to(165, 335)
+move(newItem('assets/staff.png')).to(600, 250)
 
-function newInventory(){
+function newInventory() {
     let inventory = document.createElement('div')
     inventory.style.position = 'fixed'
     inventory.style.bottom = '0px';
@@ -49,3 +60,25 @@ function newInventory(){
 }
 
 const inventory = newInventory()
+move(inventory).to(0, 0)
+
+move(newImage('assets/tree.png')).withArrowKeys(200, 450)
+const character = newImage('assets/green-character/static.gif')
+
+if (direction === null) {
+    character.src = 'assets/green-character/static.gif'
+}
+if (direction === 'west') {
+    character.src = 'assets/green-character/west.gif'
+}
+if (direction === 'north') {
+    character.src = 'assets/green-character/north.gif'
+}
+if (direction === 'east') {
+    character.src = 'assets/green-character/east.gif'
+}
+if (direction === 'south') {
+    character.src = 'assets/green-character/south.gif'
+}
+
+move(character).withArrowKeys(100, 250)
